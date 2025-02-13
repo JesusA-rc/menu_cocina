@@ -1,0 +1,158 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #f8f9fa;
+    padding: 40px 20px; 
+    box-sizing: border-box; 
+    width: 100%; 
+    max-width: 100vw;
+    overflow-x: hidden; 
+    padding-top: 3rem;
+  }
+  
+  .footer_left {
+    display: flex;
+    flex-direction: column; 
+    gap: 20px;
+    max-width: 30%;
+  }
+  
+  .footer_logo {
+    width: 50px; 
+    height: auto;
+    border-radius: 50%;
+  }
+  
+  .footer_brand {
+    font-size: 1.5rem; 
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .footer_description {
+    font-size: 0.9rem; 
+    color: #6c757d;
+    line-height: 1.5; 
+  }
+  
+  .footer_right {
+    display: flex;
+    flex-direction: column; 
+    gap: 20px;
+    width: 50%;
+    max-width: 50%;
+  }
+  
+  .newsletter_section {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+  }
+  
+  .newsletter_title {
+    font-size: 1rem; 
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .newsletter_input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px; 
+  }
+  
+  .newsletter_button {
+    padding: 10px 20px; 
+    background-color: #cbf078;
+    color: #333; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+  }
+  
+  .newsletter_button:hover {
+    background-color: #b3e66d;
+  }
+  
+  .info_sections_container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; 
+    flex-wrap: wrap;
+  }
+  
+  .menu_section,
+  .help_section,
+  .social_section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1; 
+  }
+  
+  .section_title {
+    font-size: 1rem; 
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .menu_link {
+    font-size: 0.9rem; 
+    color: #6c757d;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .menu_link:hover {
+    color: #333;
+  }
+  
+  .help_list,
+  .social_list {
+    list-style: none;
+    padding: 0; 
+    margin: 0; 
+  }
+  
+  .help_item,
+  .social_item {
+    font-size: 0.9rem;
+    color: #6c757d;
+    cursor: pointer; 
+  }
+  
+  .help_item:hover,
+  .social_item:hover {
+    color: #333; 
+  }
+
+  .input_button_container {
+    display: flex;
+    gap: 10px; 
+    align-items: center;
+  }
+  
+
+@media (max-width: 768px) {
+    .footer {
+      flex-direction: column; 
+      align-items: center;
+    }
+  
+    .footer_left,
+    .footer_right {
+      max-width: 100%;
+    }
+  
+    .footer_right {
+        display: flex;
+        flex-direction: column; 
+        gap: 20px;
+        width: 100%;
+        max-width: 100%;
+        flex: 1;
+    }
+  }
