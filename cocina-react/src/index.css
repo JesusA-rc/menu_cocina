@@ -22,3 +22,28 @@ body {
 .link:hover {
   color: #fff;
 }
+
+.food_categories_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.scroll_button {
+  background-color: #cbf078;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  flex-shrink: 0; 
+}
+
+.scroll_button:hover {
+  background-color: #b3e66d;
+}
