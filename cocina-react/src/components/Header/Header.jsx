@@ -13,32 +13,49 @@ const Header = () => {
   };
 
   return (
-    <div className={styles.header}>
+<div className={styles.header}>
       <div className={styles.logo_container}>
-        <img
-          className={styles.logo} src="https://i.pinimg.com/736x/88/ae/50/88ae50f96f105292e5f83753ffa6eb0c.jpg"  alt="Logo"
-        />
+        <img className={styles.logo} src="https://i.pinimg.com/736x/88/ae/50/88ae50f96f105292e5f83753ffa6eb0c.jpg" alt="Logo"/>
         <span className={styles.logo_text}>Cook</span>
       </div>
 
-      <button className={styles.menu_button} onClick={()=>isMenuOpen ? setIsMenuOpen(false) : setIsMenuOpen(true)}>☰</button>
+      <button className={styles.menu_button}onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        ☰
+      </button>
 
       <div className={styles.nav_links}>
-        <Link className="link" onClick={() => scrollToSection("hero_section")}>Home</Link>
-        <Link className="link" onClick={() => scrollToSection("reviews")}>Reviews</Link>
-        <Link className="link" onClick={() => scrollToSection("recipes")}>Recipes</Link>
+        <NavLink to="/" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link} onClick={() => scrollToSection("hero_section")}>
+          Home
+        </NavLink>
+        <NavLink to="/#reviews" className={({ isActive }) =>isActive ? `${styles.link} ${styles.active}` : styles.link } >
+          Reviews
+        </NavLink>
+        <NavLink to="/#recipes" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
+          Recipes
+        </NavLink>
       </div>
 
       <div className={`${styles.nav_links_mobile} ${isMenuOpen ? styles.active : ""}`}>
         <ul>
           <li>
-            <Link className="link" onClick={() => {setIsMenuOpen(false); scrollToSection("hero_section")}}>Home</Link>
+            <NavLink to="/" className={({ isActive }) =>isActive ? `${styles.link} ${styles.active}` : styles.link}
+              onClick={() => {setIsMenuOpen(false); scrollToSection("hero_section");}}>
+              Home
+            </NavLink>
           </li>
           <li>
-            <Link className="link" onClick={() => {setIsMenuOpen(false); scrollToSection("reviews")}}> Reviews</Link>
+            <NavLink to="/#reviews" className={({ isActive }) =>isActive ? `${styles.link} ${styles.active}` : styles.link}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Reviews
+            </NavLink>
           </li>
           <li>
-            <Link className="link" onClick={() => {setIsMenuOpen(false); scrollToSection("recipes")}}>Recipes</Link>
+            <NavLink  to="/#recipes" className={({ isActive }) =>isActive ? `${styles.link} ${styles.active}` : styles.link}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Recipes
+            </NavLink>
           </li>
         </ul>
       </div>

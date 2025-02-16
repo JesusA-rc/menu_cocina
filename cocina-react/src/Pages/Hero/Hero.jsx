@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 import Footer from "../../components/Footer/Footer";
 import Reviews from "../../components/Reviews/Reviews";
 import FilterComponent from "../../components/FilterComponent/FilterComponent";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 
 const Hero = () => {
     const [recipes, setRecipes] = useState([]);
@@ -11,8 +14,31 @@ const Hero = () => {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [areas, setAreas] = useState([]); 
     const [selectedArea, setSelectedArea] = useState("All");
+    const navigate = useNavigate();
+    const location = useLocation();
+    let abortController = null;
+
+    useEffect(() => {
+      const hash = location.hash;
+      if (hash) {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }, [location]);
+
+    const handleCardClick = async (recipe) => {
+      const recipeDetails = await fetchRecipeDetails(recipe.idMeal); 
+      navigate("/food", { state: recipeDetails }); 
+    };
 
     const fetchRecipes = async (category, area) => {
+      if (abortController) {
+        abortController.abort();
+      }
+    
+      abortController = new AbortController();
       try {
         let url = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
         if (category && category !== "All") {
@@ -22,8 +48,25 @@ const Hero = () => {
           url = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`;
         }
         const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
-        setRecipes(data.meals || []);
+        const filteredRecipes = data.meals || [];
+        const detailedRecipes = await Promise.all(
+          filteredRecipes.map(async (recipe) => {
+            try {
+              const details = await fetchRecipeDetails(recipe.idMeal);
+              return details;
+            } catch (error) {
+              console.error(`Error fetching details for recipe ID ${recipe.idMeal}:`, error);
+            }
+          })
+        );
+
+        setRecipes(detailedRecipes);
       } catch (error) {
         console.error("Error fetching recipes:", error);
       }
@@ -64,6 +107,18 @@ const Hero = () => {
         ]);
       } catch (error) {
         console.error("Error fetching categories:", error);
+      }
+    };
+
+    const fetchRecipeDetails = async (idMeal) => {
+      try {
+        const response = await fetch(
+          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
+        );
+        const data = await response.json();
+        return data.meals[0]; 
+      } catch (error) {
+        console.error("Error fetching recipe details:", error);
       }
     };
   
@@ -111,12 +166,12 @@ const Hero = () => {
 
         <div className={styles.search_by_filters}>
           <FilterComponent
-          title="Categories"
-          items={categories}
-          selectedItem={selectedCategory}
-          setSelectedItem={setSelectedCategory}
-          handleItemClick={handleCategoryChange}
-         />
+            title="Categories"
+            items={categories}
+            selectedItem={selectedCategory}
+            setSelectedItem={setSelectedCategory}
+            handleItemClick={handleCategoryChange}
+          />
         
          <FilterComponent
             title="Countries"
@@ -124,13 +179,14 @@ const Hero = () => {
             selectedItem={selectedArea}
             setSelectedItem={setSelectedArea}
             handleItemClick={handleAreaChange}
-        />
+         />
       </div>
 
         <div className={styles.card_container}>
           {recipes.length > 0 ? (
             recipes.map((recipe,index) => (
-              <div key={recipe.idMeal} className={`${styles.card} ${styles.fadeIn}`} style={{ animationDelay: `${index * 0.2}s` }}>
+              <div key={recipe.idMeal}  onClick={() => handleCardClick(recipe)}
+              className={`${styles.card} ${styles.fadeIn}`} style={{ animationDelay: `${index * 0.2}s` }}>
                 <div className={styles.image_container}>
                   <img src={recipe.strMealThumb} alt={recipe.strMeal} />
                 </div>

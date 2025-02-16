@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Header from './components/Header/Header'
 import Hero from './Pages/Hero/Hero'
-import Footer from './components/Footer/Footer';
+import Food from './Pages/Food/Food';
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
       <Header></Header>
       <Routes>
         <Route path="/" element={<Hero />} />
+        <Route path="/Food" element={<Food />} />
       </Routes>
     </>
   )
