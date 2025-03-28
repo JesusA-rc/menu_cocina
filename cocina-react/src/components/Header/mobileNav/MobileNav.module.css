@@ -1,0 +1,48 @@
+.nav_links_mobile {
+    display: none;
+  }
+
+  .link {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .link:hover {
+    color: #fff;
+  }
+  
+  .active {
+    color: #e81313;
+    font-weight: bold;
+  }
+
+@media (max-width: 768px) {
+  
+    .nav_links_mobile {
+      display: flex;
+      position: fixed;
+      top: 60px;
+      right: 0;
+      background-color: #cbf078;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      max-width: 50%;
+      z-index: 1;
+      gap: 0;
+      height: 0;
+      max-height: 50vh;
+      overflow: hidden;
+      transform: translateY(-10px);
+      transition: height 0.3s ease, transform 0.3s ease;
+      border-radius: 5px;
+    }
+  
+    .nav_links_mobile.active {
+      height: 200px;
+      transform: translateY(0);
+    }
+}

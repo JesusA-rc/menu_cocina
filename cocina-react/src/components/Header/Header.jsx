@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Header.module.css";
+import DesktopNav from "./destktopNav/DesktopNav";
+import MobileNav from "./mobileNav/MobileNav";
 import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
@@ -19,46 +21,16 @@ const Header = () => {
         <span className={styles.logo_text}>Cook</span>
       </div>
 
-      <button className={styles.menu_button}onClick={() => setIsMenuOpen(!isMenuOpen)}>
+      <button className={styles.menu_button_mobile}onClick={() => setIsMenuOpen(!isMenuOpen)}>
         ☰
       </button>
 
-      <div className={styles.nav_links}>
-        <NavLink to="/" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link} onClick={() => scrollToSection("hero_section")}>
-          Home
-        </NavLink>
-        <NavLink to="/#reviews" className={({ isActive }) =>isActive ? `${styles.link} ${styles.active}` : styles.link } >
-          Reviews
-        </NavLink>
-        <NavLink to="/#recipes" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
-          Recipes
-        </NavLink>
-      </div>
-
-      <div className={`${styles.nav_links_mobile} ${isMenuOpen ? styles.active : ""}`}>
-        <ul>
-          <li>
-            <NavLink to="/" className={({ isActive }) =>isActive ? `${styles.link} ${styles.active}` : styles.link}
-              onClick={() => {setIsMenuOpen(false); scrollToSection("hero_section");}}>
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/#reviews" className={({ isActive }) =>isActive ? `${styles.link} ${styles.active}` : styles.link}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Reviews
-            </NavLink>
-          </li>
-          <li>
-            <NavLink  to="/#recipes" className={({ isActive }) =>isActive ? `${styles.link} ${styles.active}` : styles.link}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Recipes
-            </NavLink>
-          </li>
-        </ul>
-      </div>
+      <DesktopNav scrollToSection={scrollToSection} />
+      <MobileNav
+        isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
+        scrollToSection={scrollToSection}
+      />
     </div>
   );
 };
