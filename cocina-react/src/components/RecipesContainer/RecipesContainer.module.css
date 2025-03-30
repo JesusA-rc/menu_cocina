@@ -1,0 +1,16 @@
+.card_container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .card_container {
+      gap: 10px; 
+      padding: 0 10px; 
+    }
+}

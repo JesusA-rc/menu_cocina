@@ -1,6 +1,6 @@
 import React, { useEffect, useState,useRef } from "react";
 import styles from './Hero.module.css'
-import Footer from "../../components/Footer/Footer";
+import RecipesContainer from "../../components/RecipesContainer/RecipesContainer";
 import Reviews from "../../components/Reviews/Reviews";
 import FilterComponent from "../../components/FilterComponent/FilterComponent";
 import { useNavigate } from "react-router-dom";
@@ -91,26 +91,15 @@ const Hero = () => {
          />
       </div>
 
-        <div className={styles.card_container}>
-          {recipes.length > 0 ? (
-            recipes.map((recipe,index) => (
-              <div key={recipe.idMeal}  onClick={() => handleCardClick(recipe)}
-              className={`${styles.card} ${styles.fadeIn}`} style={{ animationDelay: `${index * 0.2}s` }}>
-                <div className={styles.image_container}>
-                  <img src={recipe.strMealThumb} alt={recipe.strMeal} />
-                </div>
-                <span className={styles.card_title}>{recipe.strMeal}</span>
-                <span className={styles.card_description}>{recipe.strCategory} - {recipe.strArea}</span>
-              </div>
-            ))
-          ) : (
-            <p>Loading recipes...</p>
-          )}
-        </div>
+      <RecipesContainer 
+          recipes={recipes} 
+          onCardClick={handleCardClick} 
+          itemsPerPage={12}
+      />
+
       </div>
         
       <Reviews></Reviews>  
-      <Footer></Footer>
     </div>
   )
 }

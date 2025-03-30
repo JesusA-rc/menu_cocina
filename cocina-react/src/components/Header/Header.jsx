@@ -15,7 +15,8 @@ const Header = () => {
   };
 
   return (
-<div className={styles.header}>
+
+  <header className={styles.header}>
       <div className={styles.logo_container}>
         <img className={styles.logo} src="https://i.pinimg.com/736x/88/ae/50/88ae50f96f105292e5f83753ffa6eb0c.jpg" alt="Logo"/>
         <span className={styles.logo_text}>Cook</span>
@@ -31,7 +32,7 @@ const Header = () => {
         setIsMenuOpen={setIsMenuOpen}
         scrollToSection={scrollToSection}
       />
-    </div>
+    </header>
   );
 };
 

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import styles from './Food.module.css'
-import Footer from '../../components/Footer/Footer'
 import { NavLink } from 'react-router-dom'
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -78,9 +77,6 @@ const Food = () => {
                 )}
             </div>
         </div>
-
-
-        <Footer></Footer>
     </div>
   )
 }
