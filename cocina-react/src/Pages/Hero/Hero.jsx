@@ -1,12 +1,11 @@
 import React, { useEffect, useState,useRef } from "react";
 import styles from './Hero.module.css'
-import { Link } from 'react-router-dom'
 import Footer from "../../components/Footer/Footer";
 import Reviews from "../../components/Reviews/Reviews";
 import FilterComponent from "../../components/FilterComponent/FilterComponent";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-
+import { fetchCategories, fetchAreas, fetchRecipes, fetchRecipeDetails} from "../../utils/fetchUtils";
 
 const Hero = () => {
     const [recipes, setRecipes] = useState([]);
@@ -16,7 +15,6 @@ const Hero = () => {
     const [selectedArea, setSelectedArea] = useState("All");
     const navigate = useNavigate();
     const location = useLocation();
-    let abortController = null;
 
     useEffect(() => {
       const hash = location.hash;
@@ -27,117 +25,28 @@ const Hero = () => {
         }
       }
     }, [location]);
+    
+    useEffect(() => {
+      fetchCategories().then((data) => setCategories(data));
+      fetchAreas().then((data) => setAreas(data));
+      fetchRecipes(selectedCategory, selectedArea).then((data) => setRecipes(data));
+    }, []);
 
     const handleCardClick = async (recipe) => {
       const recipeDetails = await fetchRecipeDetails(recipe.idMeal); 
       navigate("/food", { state: recipeDetails }); 
     };
-
-    const fetchRecipes = async (category, area) => {
-      if (abortController) {
-        abortController.abort();
-      }
-    
-      abortController = new AbortController();
-      try {
-        let url = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
-        if (category && category !== "All") {
-          url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
-        }
-        if (area && area !== "All") {
-          url = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`;
-        }
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        const filteredRecipes = data.meals || [];
-        const detailedRecipes = await Promise.all(
-          filteredRecipes.map(async (recipe) => {
-            try {
-              const details = await fetchRecipeDetails(recipe.idMeal);
-              return details;
-            } catch (error) {
-              console.error(`Error fetching details for recipe ID ${recipe.idMeal}:`, error);
-            }
-          })
-        );
-
-        setRecipes(detailedRecipes);
-      } catch (error) {
-        console.error("Error fetching recipes:", error);
-      }
-    };
-
-    const fetchAreas = async () => {
-      try {
-        const response = await fetch(
-          "https://www.themealdb.com/api/json/v1/1/list.php?a=list"
-        );
-        const data = await response.json();
-        setAreas([
-          { id: "all-areas", name: "All", image: null },
-          ...data.meals.map((area) => ({
-            id: area.strArea,
-            name: area.strArea,
-            image: "https://cdn-icons-png.flaticon.com/512/11036/11036960.png",
-          })),
-        ]);
-      } catch (error) {
-        console.error("Error fetching areas:", error);
-      }
-    };
-  
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(
-          "https://www.themealdb.com/api/json/v1/1/categories.php"
-        );
-        const data = await response.json();
-        setCategories([
-          { id: "all-categories", name: "All", image: null },
-          ...data.categories.map((category) => ({
-            id: category.idCategory,
-            name: category.strCategory,
-            image: category.strCategoryThumb,
-          })),
-        ]);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
-    const fetchRecipeDetails = async (idMeal) => {
-      try {
-        const response = await fetch(
-          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
-        );
-        const data = await response.json();
-        return data.meals[0]; 
-      } catch (error) {
-        console.error("Error fetching recipe details:", error);
-      }
-    };
-  
-    useEffect(() => {
-      fetchCategories();
-      fetchAreas();
-      fetchRecipes(selectedCategory, selectedArea);
-    }, []);
   
     const handleCategoryChange = (category) => {
       setSelectedCategory(category);
       setSelectedArea("All");
-      fetchRecipes(category, "All");
+      fetchRecipes(category, "All").then((data) => setRecipes(data));
     };
 
     const handleAreaChange = (area) => {
       setSelectedArea(area);
-      setSelectedCategory("All"); 
-      fetchRecipes("All", area);
+      setSelectedCategory("All");
+      fetchRecipes("All", area).then((data) => setRecipes(data));
     };
 
   return (

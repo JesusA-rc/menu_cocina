@@ -4,22 +4,6 @@
     position: relative; 
   }
 
-  .link {
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-  
-  .link:hover {
-    color: #fff;
-  }
-  
-  .active {
-    color: #e81313;
-    font-weight: bold;
-  }
-
 @media (max-width: 768px) {
     .desktop_nav_links {
       display: none;
